@@ -20,7 +20,7 @@ services:
   api:
       build:
         context: ./backend
-        dockerfile: Dockerdfile
+        dockerfile: Dockerfile
       container_name: challenge-api
       environment:
         DB_HOST: db
@@ -46,8 +46,8 @@ services:
       depends_on:
         - api
       volumes:
-        - ./fontend:/app
-        - /app/node_module
+        - ./frontend:/app
+        - /app/node_modules
 volumes:
     postgres_data:
 
