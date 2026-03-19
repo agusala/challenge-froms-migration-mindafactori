@@ -8,15 +8,15 @@ export class SujetosController {
 
   @Get('by-cuit')
   async findByCuit(@Query('cuit') cuit: string){
-    return this.sujetosService.findByCuit(cuit);
+    const sujeto= await this.sujetosService.findByCuit(cuit);
+    if(!sujeto){
+      throw new NotFoundException('Sujeto no enciontrado') 
+    }
+    return sujeto;
     }
 
   @Post()
-  async create(@Body() createSujetoDto: any) {
-    console.log('body recibiido:',createSujetoDto);
-    if (!createSujetoDto){
-      throw new Error('body is undefined');
-    }
+  async create(@Body() createSujetoDto: {cuit:string; denominacion:string}) {
     return this.sujetosService.create(createSujetoDto.cuit, createSujetoDto.denominacion);
   }
 }

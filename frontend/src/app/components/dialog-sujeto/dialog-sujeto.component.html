@@ -1,12 +1,16 @@
-<h2 mat-dialog-title>Crear nuevo Sujeto</h2>
-<div mat-dialog-content>
-  <p>El CUIT {{ data.cuit }} no existe. Ingrese la denominación:</p>
-  <mat-form-field>
+<h2 mat-dialog-title class="bg-primary text-white p-3 rounded-top">
+  <i class="bi bi-person-plus-fill me-2"></i>Nuevo Sujeto
+</h2>
+<div mat-dialog-content class="p-3">
+  <p>El CUIT <strong>{{ data.cuit }}</strong> no existe. Ingrese la denominación:</p>
+  <mat-form-field class="w-100">
     <mat-label>Denominación</mat-label>
     <input matInput [(ngModel)]="denominacion">
   </mat-form-field>
 </div>
-<div mat-dialog-actions>
-  <button mat-button (click)="onNoClick()">Cancelar</button>
-  <button mat-button [mat-dialog-close]="denominacion" cdkFocusInitial>Crear</button>
+<div mat-dialog-actions class="d-flex justify-content-end p-3">
+  <button mat-button (click)="onNoClick()" class="me-2">Cancelar</button>
+  <button mat-raised-button color="primary" [mat-dialog-close]="denominacion" [disabled]="!denominacion">
+    Crear
+  </button>
 </div>
