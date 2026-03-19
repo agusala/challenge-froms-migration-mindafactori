@@ -8,6 +8,7 @@ import { DialogSujetoComponent } from '../dialog-sujeto/dialog-sujeto.component'
 import { Sujeto } from '../../models/sujeto.model';
 import { AutomotorService } from '../../service/automotor.service';
 import { SujetoService } from '../../service/sujeto.service';
+import { HttpClientModule } from '@angular/common/http';
 
 
 @Component({
@@ -17,7 +18,9 @@ import { SujetoService } from '../../service/sujeto.service';
     CommonModule,
     ReactiveFormsModule,
     RouterModule,
-    MatDialogModule
+    MatDialogModule,
+    HttpClientModule,
+    DialogSujetoComponent
   ],
   templateUrl: './formulario.component.html',
   styleUrls: ['./formulario.component.css']

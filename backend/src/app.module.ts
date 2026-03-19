@@ -1,12 +1,11 @@
 import { Module } from '@nestjs/common';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
+import { AutomotoresModule } from './modules/automotores/automotor.module';
+import { SujetosModule } from './modules/sujetos/sujeto.module';
 @Module({
   imports:[
-    ConfigModule.forRoot({
-      envFilePath:'.env',
-      isGlobal:true
-    }),
+    ConfigModule.forRoot(),
     TypeOrmModule.forRootAsync({
       imports:[ConfigModule],
       inject:[ConfigService],
@@ -17,12 +16,14 @@ import { TypeOrmModule } from '@nestjs/typeorm';
           username:configService.get('DB_USER'),
           password:configService.get('DB_PASSWORD'),
           database:configService.get('DB_NAME'),
-          entites:[__dirname + '/**/*.entity{.ts,.js}'],
+          autoLoadEntities:true,
           synchronize:false,
           logging:true
         
       })
-    })
+    }),
+    AutomotoresModule,
+    SujetosModule,
   ]
 })
 export class AppModule {}

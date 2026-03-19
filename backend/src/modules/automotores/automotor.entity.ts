@@ -16,7 +16,7 @@ export class Automotor {
   @Column({ name: 'atr_color', length: 40, nullable: true })
   atr_color: string;
   @Column({ name: 'atr_fecha_fabricacion', type: 'integer' })
-  atr_fecha_fabricacion: number; // YYYYMM
+  atr_fecha_fabricacion: number; 
   @Column({ name: 'atr_fecha_alta_registro', type: 'timestamptz', default: () => 'CURRENT_TIMESTAMP' })
   atr_fecha_alta_registro: Date;
   @OneToOne(() => ObjetoDeValor, { onDelete: 'CASCADE' })

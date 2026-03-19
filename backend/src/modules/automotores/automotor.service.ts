@@ -92,7 +92,7 @@ export class AutomotoresService {
           atr_numero_motor: data.numero_motor,
           atr_color: data.color,
           atr_fecha_fabricacion: data.fecha_fabricacion,
-          objetoDeValor: objeto,  // antes 'objeto'
+          objetoDeValor: objeto,  
         });
       } else {
         automotor.atr_numero_chasis = data.numero_chasis;

@@ -13,7 +13,7 @@ import { MatButtonModule } from '@angular/material/button';
     FormsModule,
     MatDialogModule,
     MatInputModule,
-    MatButtonModule
+    MatButtonModule,
   ],
   templateUrl: './dialog-sujeto.component.html',
   styleUrls: ['./dialog-sujeto.component.css']

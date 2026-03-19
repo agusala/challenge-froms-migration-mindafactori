@@ -3,11 +3,12 @@ import { CommonModule } from '@angular/common';
 import { RouterModule, Router } from '@angular/router';
 import { AutomotorService } from '../../service/automotor.service';
 import { Automotor } from '../../models/automotor.model';
+import { HttpClientModule } from '@angular/common/http';
 
 @Component({
   selector: 'app-listado',
   standalone: true,
-  imports: [CommonModule, RouterModule],
+  imports: [CommonModule, RouterModule,HttpClientModule],
   templateUrl: './listado.component.html',
   styleUrls: ['./listado.component.css']
 })
