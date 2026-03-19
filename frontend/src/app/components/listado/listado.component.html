@@ -1,0 +1,27 @@
+<div class="container mt-4">
+  <h2>Listado de Automotores</h2>
+  <button class="btn btn-primary mb-3" (click)="nuevo()">Nuevo Automotor</button>
+  <table class="table table-striped">
+    <thead>
+      <tr>
+        <th>Dominio</th>
+        <th>Dueño</th>
+        <th>CUIT</th>
+        <th>Fabricación</th>
+        <th>Acciones</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let auto of automotores">
+        <td>{{ auto.dominio }}</td>
+        <td>{{ auto.denominacion_dueno }}</td>
+        <td>{{ auto.cuit_duenio }}</td>
+        <td>{{ auto.fecha_fabricacion }}</td>
+        <td>
+          <button class="btn btn-sm btn-warning" (click)="editar(auto.dominio)">Editar</button>
+          <button class="btn btn-sm btn-danger" (click)="eliminar(auto.dominio)">Eliminar</button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>

@@ -1,0 +1,39 @@
+<div class="container mt-4">
+  <h2>{{ isEdit ? 'Editar' : 'Nuevo' }} Automotor</h2>
+  <form [formGroup]="formulario" (ngSubmit)="onSubmit()">
+    <div class="mb-3">
+      <label class="form-label">Dominio</label>
+      <input type="text" class="form-control" formControlName="dominio" [readonly]="isEdit">
+      <div *ngIf="formulario.get('dominio')?.invalid && formulario.get('dominio')?.touched" class="text-danger">
+        Debe ser formato AAA999 o AA999AA
+      </div>
+    </div>
+    <div class="mb-3">
+      <label class="form-label">Número Chasis</label>
+      <input type="text" class="form-control" formControlName="numero_chasis">
+    </div>
+    <div class="mb-3">
+      <label class="form-label">Número Motor</label>
+      <input type="text" class="form-control" formControlName="numero_motor">
+    </div>
+    <div class="mb-3">
+      <label class="form-label">Color</label>
+      <input type="text" class="form-control" formControlName="color">
+    </div>
+    <div class="mb-3">
+      <label class="form-label">Fecha Fabricación (YYYYMM)</label>
+      <input type="text" class="form-control" formControlName="fecha_fabricacion">
+      <div *ngIf="formulario.get('fecha_fabricacion')?.invalid && formulario.get('fecha_fabricacion')?.touched" class="text-danger">
+        Debe ser 6 dígitos (YYYYMM)
+      </div>
+    </div>
+    <div class="mb-3">
+      <label class="form-label">CUIT Dueño</label>
+      <input type="text" class="form-control" formControlName="cuit_duenio">
+      <div *ngIf="formulario.get('cuit_duenio')?.invalid && formulario.get('cuit_duenio')?.touched" class="text-danger">
+        Debe tener 11 dígitos numéricos
+      </div>
+    </div>
+    <button type="submit" class="btn btn-primary" [disabled]="formulario.invalid">Guardar</button>
+    <button type="button" class="btn btn-secondary ms-2" (click)="cancelar()">Cancelar</button>  </form>
+</div>

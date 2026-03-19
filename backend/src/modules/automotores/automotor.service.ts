@@ -21,10 +21,9 @@ export class AutomotoresService {
   ) {}
 
   async findAll() {
-    // Usamos query builder para obtener dueño actual
     return this.automotorRepository
       .createQueryBuilder('a')
-      .leftJoinAndSelect('a.objeto', 'o')
+      .leftJoinAndSelect('a.objetoDeValor', 'o')
       .leftJoin('o.vinculos', 'v', 'v.vso_responsable = :resp AND v.vso_fecha_fin IS NULL', { resp: 'S' })
       .leftJoinAndSelect('v.sujeto', 's')
       .select([
@@ -43,10 +42,12 @@ export class AutomotoresService {
   async findByDominio(dominio: string) {
     const automotor = await this.automotorRepository.findOne({
       where: { atr_dominio: dominio },
-      relations: ['objeto', 'objeto.vinculos', 'objeto.vinculos.sujeto'],
+      relations: ['objetoDeValor', 'objetoDeValor.vinculos', 'objetoDeValor.vinculos.sujeto'],
     });
     if (!automotor) throw new NotFoundException('Automotor no encontrado');
-    const vinculoActual = automotor.objeto.vinculos.find(v => v.vso_responsable === 'S' && !v.vso_fecha_fin);
+    const vinculoActual = automotor.objetoDeValor.vinculos.find(
+      v => v.vso_responsable === 'S' && !v.vso_fecha_fin
+    );
     return {
       ...automotor,
       cuit_duenio: vinculoActual?.sujeto.spo_cuit,
@@ -55,7 +56,6 @@ export class AutomotoresService {
   }
 
   async create(data: any) {
-    // Validaciones de negocio
     if (!validateDominio(data.dominio)) {
       throw new UnprocessableEntityException('Dominio inválido');
     }
@@ -70,12 +70,10 @@ export class AutomotoresService {
       throw new UnprocessableEntityException('No existe sujeto con ese CUIT');
     }
 
-    // Usar transacción para asegurar consistencia
     const queryRunner = this.dataSource.createQueryRunner();
     await queryRunner.connect();
     await queryRunner.startTransaction();
     try {
-      // Buscar o crear ObjetoDeValor
       let objeto = await queryRunner.manager.findOne(ObjetoDeValor, { where: { ovp_codigo: data.dominio } });
       if (!objeto) {
         objeto = queryRunner.manager.create(ObjetoDeValor, {
@@ -86,7 +84,6 @@ export class AutomotoresService {
         objeto = await queryRunner.manager.save(objeto);
       }
 
-      // Buscar o crear Automotor
       let automotor = await queryRunner.manager.findOne(Automotor, { where: { atr_dominio: data.dominio } });
       if (!automotor) {
         automotor = queryRunner.manager.create(Automotor, {
@@ -95,10 +92,9 @@ export class AutomotoresService {
           atr_numero_motor: data.numero_motor,
           atr_color: data.color,
           atr_fecha_fabricacion: data.fecha_fabricacion,
-          objeto: objeto,
+          objetoDeValor: objeto,  // antes 'objeto'
         });
       } else {
-        // actualizar
         automotor.atr_numero_chasis = data.numero_chasis;
         automotor.atr_numero_motor = data.numero_motor;
         automotor.atr_color = data.color;
@@ -106,20 +102,18 @@ export class AutomotoresService {
       }
       automotor = await queryRunner.manager.save(automotor);
 
-      // Cerrar vínculo anterior si existe
       await queryRunner.manager.update(
         VinculoSujetoObjeto,
         {
-          objeto: { ovp_id: objeto.ovp_id },
+          objetoDeValor: { ovp_id: objeto.ovp_id },
           vso_responsable: 'S',
           vso_fecha_fin: null,
         },
         { vso_fecha_fin: new Date() },
       );
 
-      // Crear nuevo vínculo
       const vinculo = queryRunner.manager.create(VinculoSujetoObjeto, {
-        objeto,
+        objetoDeValor: objeto,
         sujeto,
         vso_tipo_vinculo: 'DUENO',
         vso_porcentaje: 100,
@@ -139,21 +133,18 @@ export class AutomotoresService {
   }
 
   async update(dominio: string, data: any) {
-    // Similar a create, pero primero verifica que existe
     const existe = await this.automotorRepository.findOne({ where: { atr_dominio: dominio } });
     if (!existe) throw new NotFoundException('Automotor no encontrado');
-    // Reutilizar create (porque hace upsert) pero podría refinar
     return this.create(data);
   }
 
   async remove(dominio: string) {
     const automotor = await this.automotorRepository.findOne({
       where: { atr_dominio: dominio },
-      relations: ['objeto'],
+      relations: ['objetoDeValor'],
     });
     if (!automotor) throw new NotFoundException('Automotor no encontrado');
-    // Eliminar en cascada: las relaciones están con ON DELETE CASCADE, así que basta con eliminar el objeto
-    await this.objetoRepository.delete(automotor.objeto.ovp_id);
+    await this.objetoRepository.delete(automotor.objetoDeValor.ovp_id);
     return { message: 'Automotor eliminado' };
   }
 }
