@@ -105,7 +105,7 @@ export class AutomotoresService {
       await queryRunner.manager.update(
         VinculoSujetoObjeto,
         {
-          objetoDeValor: { ovp_id: objeto.ovp_id },
+          vso_ovp_id: objeto.ovp_id,
           vso_responsable: 'S',
           vso_fecha_fin: null,
         },

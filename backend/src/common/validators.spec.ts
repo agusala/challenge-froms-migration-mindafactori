@@ -26,13 +26,13 @@ describe('Validators', () => {
     });
 
     it('debe rechazar CUIT con dígito incorrecto', () => {
-      // Cambiamos el último dígito
+
       expect(validateCUIT('20267565394')).toBe(false);
     });
 
     it('debe rechazar longitud incorrecta', () => {
-      expect(validateCUIT('1234567890')).toBe(false); // 10 dígitos
-      expect(validateCUIT('123456789012')).toBe(false); // 12 dígitos
+      expect(validateCUIT('1234567890')).toBe(false); 
+      expect(validateCUIT('123456789012')).toBe(false); 
     });
 
     it('debe rechazar caracteres no numéricos', () => {
@@ -58,12 +58,12 @@ describe('Validators', () => {
     });
 
     it('debe rechazar fecha futura', () => {
-      const futureYearMonth = (currentYear + 1) * 100 + 1; // enero del próximo año
+      const futureYearMonth = (currentYear + 1) * 100 + 1; 
       expect(validateFechaFabricacion(futureYearMonth)).toBe(false);
     });
 
     it('debe rechazar si no tiene 6 dígitos', () => {
-      expect(validateFechaFabricacion(20201)).toBe(false); // 5 dígitos
+      expect(validateFechaFabricacion(20201)).toBe(false); 
     });
   });
 });

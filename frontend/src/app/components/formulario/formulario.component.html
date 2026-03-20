@@ -9,7 +9,6 @@
     <div class="card-body">
       <form [formGroup]="formulario" (ngSubmit)="onSubmit()">
         <div class="row">
-          <!-- Dominio -->
           <div class="col-md-6 mb-3">
             <label class="form-label">Dominio</label>
             <input type="text" class="form-control" formControlName="dominio" [readonly]="isEdit"
@@ -19,7 +18,6 @@
             </div>
           </div>
 
-          <!-- CUIT Dueño -->
           <div class="col-md-6 mb-3">
             <label class="form-label">CUIT Dueño</label>
             <input type="text" class="form-control" formControlName="cuit_duenio"
@@ -29,25 +27,21 @@
             </div>
           </div>
 
-          <!-- Número Chasis -->
           <div class="col-md-6 mb-3">
             <label class="form-label">Número Chasis</label>
             <input type="text" class="form-control" formControlName="numero_chasis">
           </div>
 
-          <!-- Número Motor -->
           <div class="col-md-6 mb-3">
             <label class="form-label">Número Motor</label>
             <input type="text" class="form-control" formControlName="numero_motor">
           </div>
 
-          <!-- Color -->
           <div class="col-md-6 mb-3">
             <label class="form-label">Color</label>
             <input type="text" class="form-control" formControlName="color">
           </div>
 
-          <!-- Fecha Fabricación -->
           <div class="col-md-6 mb-3">
             <label class="form-label">Fecha Fabricación (AAAAMM)</label>
             <input type="text" class="form-control" formControlName="fecha_fabricacion"

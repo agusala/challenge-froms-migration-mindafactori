@@ -31,7 +31,7 @@ export class ListadoComponent implements OnInit {
   }
 
   editar(dominio: string): void {
-    this.router.navigate(['/formulario', dominio]);
+    this.router.navigate(['/formulario', dominio.toUpperCase()]);
   }
 
   nuevo(): void {

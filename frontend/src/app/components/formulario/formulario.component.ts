@@ -71,7 +71,7 @@ export class FormularioComponent implements OnInit {
     if (this.formulario.invalid) return;
     const formValue = this.formulario.getRawValue();
     const automotor: Automotor = {
-      dominio: formValue.dominio,
+      dominio: formValue.dominio.toUpperCase(),
       numero_chasis: formValue.numero_chasis,
       numero_motor: formValue.numero_motor,
       color: formValue.color,
